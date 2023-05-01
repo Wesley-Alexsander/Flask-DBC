@@ -24,7 +24,7 @@ def pesquisar():
     sobrenome = request.args.get('sobrenome')
     turma = request.args.get('turma')
 
-    query = f"SEL * FROM LAB_ESTUDOS.alunos WHERE nome LIKE '{nome}' AND sobrenome LIKE '{sobrenome}' AND turma LIKE '{turma}';"
+    query = f"SELECT * FROM LAB_ESTUDOS.alunos WHERE nome LIKE '{nome}' AND sobrenome LIKE '{sobrenome}' AND turma LIKE '{turma}';"
 
     aluno = []
     con = conexao()
@@ -51,23 +51,24 @@ def inserir():
     cursor.execute(query)
     cursor.close()
 
-    return f'Registro |{nome}|{sobrenome}|{turma}| inserido com sucesso'
+    return f'Registro | {nome} | {sobrenome} | {turma} | inserido com sucesso'
 
 
 @app.route('/Deletar', methods=['DELETE'])
 def cadastro():
+    id = request.args.get('id')
     nome = request.args.get('nome')
-    sobrenome = request.args.get('sobrenome')
+    
     turma = request.args.get('turma')
 
-    query = f"DELETE FROM LAB_ESTUDOS.alunos WHERE nome LIKE '{nome}' AND sobrenome LIKE '{sobrenome}' AND turma LIKE '{turma}';"
+    query = f"DELETE FROM LAB_ESTUDOS.alunos WHERE id = {id} AND nome LIKE '{nome}';"
 
     con = conexao()
     cursor = con.cursor()
     cursor.execute(query)
     cursor.close()
 
-    return f'Registro |{nome}|{sobrenome}|{turma}| deletado com sucesso'
+    return f'Registro | {id} | {nome} | deletado com sucesso'
 
 
 if __name__ == '__main__':
