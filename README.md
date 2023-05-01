@@ -17,6 +17,6 @@ Excluir um registro do banco de dados baseado em algum campo da tabela (pode ser
 
 
 
-OBS: Lembrem de que a API POST e GET tem que obrigatoriamente ser realizada a ação através de parâmetros da requisição.
+OBS: O API POST e GET tem que obrigatoriamente ser realizada a ação através de parâmetros da requisição.
 
 
