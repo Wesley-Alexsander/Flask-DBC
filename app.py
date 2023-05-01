@@ -14,7 +14,7 @@ def conexao():
     con = f"DRIVER={DRIVERNAME}; DBCNAME={hostname}; UID={uid};PWD={pwd}"
 
     # Iniciando conexão
-    connect = pyodbc.connect(connect, autocommit=True)
+    connect = pyodbc.connect(con, autocommit=True)
     return connect
 
 
@@ -24,14 +24,17 @@ def pesquisar():
     sobrenome = request.args.get('sobrenome')
     turma = request.args.get('turma')
 
+    query = f"SEL * FROM LAB_ESTUDOS.alunos WHERE nome LIKE '{nome}' AND sobrenome LIKE '{sobrenome}' AND turma LIKE '{turma}';"
+
     aluno = []
     con = conexao()
     cursor = con.cursor()
-    cursor.execute('SEL * FROM LAB_ESTUDOS.alunos')
+    cursor.execute()
 
     for row in cursor.fetchall():
         aluno.append({f"nome: {row[0]}, sobrenome: {row[1]}, turma: {row[2]}"})
 
+    cursor.close()
     return aluno
     
   
@@ -41,14 +44,14 @@ def inserir():
     sobrenome = request.args.get('sobrenome')
     turma = request.args.get('turma')
     
-    query = f'INSERT INTO LAB_ESTUDOS.alunos VALUES ({nome}, {sobrenome}, {turma})'
+    query = f"INSERT INTO LAB_ESTUDOS.alunos VALUES ('{nome}', '{sobrenome}', '{turma}');"
 
     con = conexao()
     cursor = con.cursor()
     cursor.execute(query)
     cursor.close()
 
-    return f'{nome}, {sobrenome}, {turma}'
+    return f'Registro |{nome}|{sobrenome}|{turma}| inserido com sucesso'
 
 
 @app.route('/Deletar', methods=['DELETE'])
@@ -57,14 +60,14 @@ def cadastro():
     sobrenome = request.args.get('sobrenome')
     turma = request.args.get('turma')
 
-    query = f'DELETE FROM LAB_ESTUDOS.alunos WHERE nome= {nome} AND sobrenome = {sobrenome} AND turma = {turma})'
+    query = f"DELETE FROM LAB_ESTUDOS.alunos WHERE nome LIKE '{nome}' AND sobrenome LIKE '{sobrenome}' AND turma LIKE '{turma}';"
 
     con = conexao()
     cursor = con.cursor()
     cursor.execute(query)
     cursor.close()
 
-    return f'{nome}, {sobrenome}, {turma}'
+    return f'Registro |{nome}|{sobrenome}|{turma}| deletado com sucesso'
 
 
 if __name__ == '__main__':
