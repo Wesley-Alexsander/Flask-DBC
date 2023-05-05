@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request,  jsonify
 import pyodbc
 
 
@@ -35,7 +35,7 @@ def pesquisar():
         aluno.append({f"nome: {row[0]}, sobrenome: {row[1]}, turma: {row[2]}"})
 
     cursor.close()
-    return aluno
+    return  jsonify(aluno)
     
   
 @app.route('/cadastrar', methods=['POST'])
